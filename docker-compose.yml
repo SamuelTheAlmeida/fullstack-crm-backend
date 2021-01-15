@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  ms-sql-server:
+    build:
+      context: .
+      dockerfile: FullStackCRM.Api/docker/db/Dockerfile
+    ports:
+      - "1433:1433"
+  fullstackcrm.api:
+    image: ${DOCKER_REGISTRY-}fullstackcrmapi
+    build:
+      context: .
+      dockerfile: FullStackCRM.Api/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ConnectionStrings:DefaultConnection"="Server=localhost,1433;Database=BNE;User Id=SA;Password=S3nh@123;

@@ -2,6 +2,7 @@ using FullStackCRM.Application.Models;
 using FullStackCRM.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace FullStackCRM.Api.Controllers {
 
@@ -21,9 +22,9 @@ namespace FullStackCRM.Api.Controllers {
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        public IActionResult Login([FromBody] UsuarioModel model)
+        public async Task<IActionResult> Login([FromBody] UsuarioModel model)
         {
-            var usuario = _usuarioService.Autenticar(model.Email, model.Senha);
+            var usuario = await _usuarioService.Autenticar(model.Email, model.Senha);
             if (usuario == default)
             {
                 return NotFound(new { message = "Email ou senha inválidos." });

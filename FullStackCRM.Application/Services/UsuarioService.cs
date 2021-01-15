@@ -6,6 +6,7 @@ using FullStackCRM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FullStackCRM.Application.Services
 {
@@ -20,10 +21,18 @@ namespace FullStackCRM.Application.Services
             _usuarioRepository = usuarioRepository;
         }
 
-        public UsuarioModel Autenticar(string usuario, string senha)
+        public async Task<UsuarioModel> Autenticar(string usuario, string senha)
         {
-            var result = _mapper.Map<UsuarioModel>(_usuarioRepository.AutenticarAsync(usuario, senha));
-            return result;
+            try
+            {
+                var result = await _usuarioRepository.AutenticarAsync(usuario, senha);
+                var model = _mapper.Map<UsuarioModel>(result);
+                return model;
+            } catch (Exception e )
+            {
+                throw e;
+            }
+
         }
     }
 }

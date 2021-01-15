@@ -70,8 +70,6 @@ namespace FullStackCRM
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseCors(x => x
