@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FullStackCRM.Api", "FullStackCRM\FullStackCRM.Api.csproj", "{44FA534C-8AC3-4232-9619-BD2F4A3AC200}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FullStackCRM.Api", "FullStackCRM.Api\FullStackCRM.Api.csproj", "{44FA534C-8AC3-4232-9619-BD2F4A3AC200}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FullStackCRM.Application", "FullStackCRM.Application\FullStackCRM.Application.csproj", "{5B7AD404-D8B2-46E5-980C-48221A5CD826}"
 EndProject
