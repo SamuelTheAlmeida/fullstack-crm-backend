@@ -15,5 +15,24 @@ CREATE TABLE Usuario (
     Perfil int NOT NULL
 );
 
+CREATE TABLE Pedido (
+    Id UNIQUEIDENTIFIER PRIMARY KEY default NEWID(),
+    EmailComprador VARCHAR(120) NOT NULL,
+    Valor decimal NOT NULL,
+    UsuarioId int NOT NULL,
+);
+
+CREATE TABLE ProdutoPedido (
+    ProdutoId UNIQUEIDENTIFIER NOT NULL,
+    PedidoId UNIQUEIDENTIFIER NOT NULL,
+    Quantidade int NOT NULL,
+    PrecoUnitario decimal,
+    PrecoTotal decimal,
+    FOREIGN KEY (ProdutoId) REFERENCES Produto (Id),
+    FOREIGN KEY (PedidoId) REFERENCES Pedido (Id),
+    PRIMARY KEY (ProdutoId, PedidoId)
+);
+
+
 INSERT INTO Usuario (Email, Senha, Perfil)
 VALUES ('samuel.t.almeida@gmail.com', '3A2060058547BCAE595561E3640E6737', 2);
