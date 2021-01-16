@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -61,10 +63,28 @@ namespace FullStackCRM
             services.RegisterServices();
 
             services.AddAutoMapper(typeof(UsuarioMapper));
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedUICultures = new[]
+                {
+                    new CultureInfo("pt-BR"),
+                };
+
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("pt-BR")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture(culture: "pt-BR", uiCulture: "pt-BR");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedUICultures;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRequestLocalization();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,5 +1,6 @@
 ﻿using FullStackCRM.Domain;
 using FullStackCRM.Domain.Entities;
+using FullStackCRM.Domain.Enums;
 using FullStackCRM.Domain.Repositories;
 using FullStackCRM.Shared;
 using System;
@@ -15,7 +16,7 @@ namespace FullStackCRM.Infra.Data.Repositories
         private readonly string connectionString;
         public UsuarioRepository()
         {
-            connectionString = ConfigurationHelper.ConnectionString; ;
+            connectionString = ConfigurationHelper.ConnectionString;
         }
 
         public async Task<Usuario> AutenticarAsync(string email, string senha)
@@ -46,7 +47,7 @@ namespace FullStackCRM.Infra.Data.Repositories
                     {
                         Id = reader.GetGuid(reader.GetOrdinal("Id")),
                         Email = reader.GetString(reader.GetOrdinal("Email")),
-                        Perfil = (EPerfil)reader.GetInt32(reader.GetOrdinal("Perfil"))
+                        Perfil = (EPerfis)reader.GetInt32(reader.GetOrdinal("Perfil"))
                     };
                 }
             }

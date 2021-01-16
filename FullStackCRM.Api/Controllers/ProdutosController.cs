@@ -1,23 +1,62 @@
 using FullStackCRM.Application.Models;
+using FullStackCRM.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace FullStackCRM.Api.Controllers {
     [ApiController]
     [Route("api/[controller]")]
     public class ProdutosController : ControllerBase
     {
-        [HttpGet]
-        public string Get()
+        private readonly IProdutoService _produtoService;
+
+        public ProdutosController(IProdutoService produtoService)
         {
-            return "Produtos";
+            _produtoService = produtoService;
+        }
+
+        [HttpGet]
+        //[Authorize]
+        public async Task<IActionResult> Get()
+        {
+            var response = await _produtoService.ListarAsync();
+            return Ok(response);
+        }
+
+        [HttpGet("{id:guid}")]
+        //[Authorize]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var response = await _produtoService.ObterPorIdAsync(id);
+            return Ok(response);
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        public void Login([FromBody] UsuarioModel model)
+        //[Authorize]
+        public async Task<IActionResult> Post([FromBody] ProdutoModel produtoModel)
         {
+            if (produtoModel is null)
+            {
+                return BadRequest();
+            }
 
-        } 
+            var response = await _produtoService.InserirAsync(produtoModel);
+            return Ok(response);
+        }
+
+        [HttpPut]
+        //[Authorize]
+        public async Task<IActionResult> Put([FromBody] ProdutoModel produtoModel)
+        {
+            if (produtoModel is null)
+            {
+                return BadRequest();
+            }
+
+            var response = await _produtoService.AtualizarAsync(produtoModel);
+            return Ok(response);
+        }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace FullStackCRM.Domain
+﻿namespace FullStackCRM.Domain.Enums
 {
-    public enum EPerfil
+    public enum EPerfis
     {
         Administrador = 1,
         Funcionario = 2
