@@ -51,5 +51,11 @@ namespace FullStackCRM.Application.Services
             var result = _mapper.Map<ProdutoModel>(await _produtoRepository.InserirAsync(produto));
             return new BaseModel<ProdutoModel>(true, EMensagens.RealizadaComSucesso, result);
         }
+
+        public async Task<BaseModel<ProdutoModel>> ExcluirAsync(Guid id)
+        {
+            await _produtoRepository.ExcluirAsync(id);
+            return new BaseModel<ProdutoModel>(true, EMensagens.RealizadaComSucesso);
+        }
     }
 }

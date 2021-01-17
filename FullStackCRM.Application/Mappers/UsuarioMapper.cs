@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using FullStackCRM.Application.Models;
-using FullStackCRM.Domain;
 using FullStackCRM.Domain.Entities;
 using FullStackCRM.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using FullStackCRM.Shared;
 
 namespace FullStackCRM.Application.Mappers
 {
@@ -16,13 +13,14 @@ namespace FullStackCRM.Application.Mappers
             CreateMap<Usuario, UsuarioModel>()
                 .ForMember(p => p.Id, p => p.MapFrom(x => x.Id))
                 .ForMember(p => p.Email, p => p.MapFrom(x => x.Email))
-                .ForMember(p => p.Perfil, p => p.MapFrom(x => Convert.ToInt32(x.Perfil)))
+                .ForMember(p => p.PerfilId, p => p.MapFrom(x => x.Perfil.GetEnumValue()))
+                .ForMember(p => p.Perfil, p => p.MapFrom(x => new EnumModel(x.Perfil)))
                 .ForMember(p => p.Senha, p => p.MapFrom(x => x.Senha));
 
             CreateMap<UsuarioModel, Usuario>()
                 .ForMember(p => p.Id, p => p.MapFrom(x => x.Id))
                 .ForMember(p => p.Email, p => p.MapFrom(x => x.Email))
-                .ForMember(p => p.Perfil, p => p.MapFrom(x => (EPerfis)x.Perfil))
+                .ForMember(p => p.Perfil, p => p.MapFrom(x => x.PerfilId.Value.GetEnum<EPerfis>()))
                 .ForMember(p => p.Senha, p => p.MapFrom(x => x.Senha));
         }
     }

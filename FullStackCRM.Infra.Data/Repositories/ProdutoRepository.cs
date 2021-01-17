@@ -108,6 +108,26 @@ namespace FullStackCRM.Infra.Data.Repositories
             }
         }
 
+        public async Task ExcluirAsync(Guid id)
+        {
+            var sql =
+            " DELETE FROM            " +
+            "   Produto              " +
+            " WHERE Id = @id;        ";
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = sql;
+                command.Parameters.AddWithValue("@id", id.ToString().ToUpper());
+                await command.ExecuteNonQueryAsync();
+
+                connection.Close();
+            }
+        }
+
         public async Task<Produto> ObterPorIdAsync(Guid id)
         {
             var sql =

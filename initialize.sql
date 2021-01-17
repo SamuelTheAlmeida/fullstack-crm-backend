@@ -35,4 +35,4 @@ CREATE TABLE ProdutoPedido (
 
 
 INSERT INTO Usuario (Email, Senha, Perfil)
-VALUES ('samuel.t.almeida@gmail.com', '3A2060058547BCAE595561E3640E6737', 2);
+VALUES ('samuel.t.almeida@gmail.com', '3A2060058547BCAE595561E3640E6737', 1);

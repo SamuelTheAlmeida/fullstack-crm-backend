@@ -12,5 +12,6 @@ namespace FullStackCRM.Domain.Repositories
         Task<Produto> ObterPorIdAsync(Guid id);
         Task<Produto> InserirAsync(Produto produto);
         Task<Produto> AtualizarAsync(Produto produto);
+        Task ExcluirAsync(Guid id);
     }
 }

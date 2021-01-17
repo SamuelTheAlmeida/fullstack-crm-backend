@@ -12,5 +12,6 @@ namespace FullStackCRM.Application.Services.Interfaces
         Task<BaseModel<ProdutoModel>> InserirAsync(ProdutoModel produtoModel);
         Task<BaseModel<ProdutoModel>> AtualizarAsync(ProdutoModel produtoModel);
         Task<BaseModel<ProdutoModel>> ObterPorIdAsync(Guid id);
+        Task<BaseModel<ProdutoModel>> ExcluirAsync(Guid id);
     }
 }

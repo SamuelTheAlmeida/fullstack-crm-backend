@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using FullStackCRM.Application.Models;
 using FullStackCRM.Application.Services.Interfaces;
+using FullStackCRM.Domain.Entities;
+using FullStackCRM.Domain.Enums;
 using FullStackCRM.Domain.Repositories;
 using FullStackCRM.Shared;
 using System;
@@ -21,6 +23,13 @@ namespace FullStackCRM.Application.Services
             _usuarioRepository = usuarioRepository;
         }
 
+        public async Task<BaseModel<UsuarioModel>> AtualizarAsync(UsuarioModel usuarioModel)
+        {
+            var usuario = _mapper.Map<Usuario>(usuarioModel);
+            var result = _mapper.Map<UsuarioModel>(await _usuarioRepository.AtualizarAsync(usuario));
+            return new BaseModel<UsuarioModel>(true, EMensagens.RealizadaComSucesso, result);
+        }
+
         public async Task<UsuarioModel> Autenticar(string usuario, string senha)
         {
             try
@@ -33,6 +42,31 @@ namespace FullStackCRM.Application.Services
                 throw e;
             }
 
+        }
+
+        public async Task<BaseModel<UsuarioModel>> InserirAsync(UsuarioModel usuarioModel)
+        {
+            var usuario = _mapper.Map<Usuario>(usuarioModel);
+            var result = _mapper.Map<UsuarioModel>(await _usuarioRepository.InserirAsync(usuario));
+            return new BaseModel<UsuarioModel>(true, EMensagens.RealizadaComSucesso, result);
+        }
+
+        public async Task<BaseModel<List<UsuarioModel>>> ListarAsync()
+        {
+            var result = _mapper.Map<List<UsuarioModel>>(await _usuarioRepository.ListarAsync());
+            return new BaseModel<List<UsuarioModel>>(true, EMensagens.RealizadaComSucesso, result);
+        }
+
+        public async Task<BaseModel<UsuarioModel>> ObterPorIdAsync(Guid id)
+        {
+            var result = _mapper.Map<UsuarioModel>(await _usuarioRepository.ObterPorIdAsync(id));
+            return new BaseModel<UsuarioModel>(true, EMensagens.RealizadaComSucesso, result);
+        }
+
+        public async Task<BaseModel<UsuarioModel>> ExcluirAsync(Guid id)
+        {
+            await _usuarioRepository.ExcluirAsync(id);
+            return new BaseModel<UsuarioModel>(true, EMensagens.RealizadaComSucesso);
         }
     }
 }

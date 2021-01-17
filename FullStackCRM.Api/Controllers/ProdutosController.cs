@@ -18,7 +18,7 @@ namespace FullStackCRM.Api.Controllers {
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             var response = await _produtoService.ListarAsync();
@@ -26,7 +26,7 @@ namespace FullStackCRM.Api.Controllers {
         }
 
         [HttpGet("{id:guid}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Get(Guid id)
         {
             var response = await _produtoService.ObterPorIdAsync(id);
@@ -34,7 +34,7 @@ namespace FullStackCRM.Api.Controllers {
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Post([FromBody] ProdutoModel produtoModel)
         {
             if (produtoModel is null)
@@ -47,7 +47,7 @@ namespace FullStackCRM.Api.Controllers {
         }
 
         [HttpPut]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Put([FromBody] ProdutoModel produtoModel)
         {
             if (produtoModel is null)
@@ -56,6 +56,14 @@ namespace FullStackCRM.Api.Controllers {
             }
 
             var response = await _produtoService.AtualizarAsync(produtoModel);
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var response = await _produtoService.ExcluirAsync(id);
             return Ok(response);
         }
     }
