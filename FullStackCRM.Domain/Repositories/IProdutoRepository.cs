@@ -8,7 +8,7 @@ namespace FullStackCRM.Domain.Repositories
 {
     public interface IProdutoRepository
     {
-        Task<List<Produto>> ListarAsync();
+        Task<List<Produto>> ListarAsync(string nome);
         Task<Produto> ObterPorIdAsync(Guid id);
         Task<Produto> InserirAsync(Produto produto);
         Task<Produto> AtualizarAsync(Produto produto);

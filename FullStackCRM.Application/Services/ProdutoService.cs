@@ -20,10 +20,10 @@ namespace FullStackCRM.Application.Services
             _mapper = mapper;
             _produtoRepository = produtoRepository;
         }
-        public async Task<BaseModel<List<ProdutoModel>>> ListarAsync()
+        public async Task<BaseModel<List<ProdutoModel>>> ListarAsync(string nome)
         {
             var produtos = await _produtoRepository
-                .ListarAsync();
+                .ListarAsync(nome);
 
             var result = _mapper.Map<List<ProdutoModel>>(produtos);
             return new BaseModel<List<ProdutoModel>>(true, EMensagens.RealizadaComSucesso, result);

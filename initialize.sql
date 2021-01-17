@@ -18,8 +18,7 @@ CREATE TABLE Usuario (
 CREATE TABLE Pedido (
     Id UNIQUEIDENTIFIER PRIMARY KEY default NEWID(),
     EmailComprador VARCHAR(120) NOT NULL,
-    Valor decimal(10,2) NOT NULL,
-    UsuarioId int NOT NULL,
+    Valor decimal(10,2) NOT NULL
 );
 
 CREATE TABLE ProdutoPedido (

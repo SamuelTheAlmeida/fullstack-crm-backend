@@ -8,7 +8,7 @@ namespace FullStackCRM.Application.Services.Interfaces
 {
     public interface IProdutoService
     {
-        Task<BaseModel<List<ProdutoModel>>> ListarAsync();
+        Task<BaseModel<List<ProdutoModel>>> ListarAsync(string nome);
         Task<BaseModel<ProdutoModel>> InserirAsync(ProdutoModel produtoModel);
         Task<BaseModel<ProdutoModel>> AtualizarAsync(ProdutoModel produtoModel);
         Task<BaseModel<ProdutoModel>> ObterPorIdAsync(Guid id);

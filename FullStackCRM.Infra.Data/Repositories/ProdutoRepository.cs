@@ -17,7 +17,7 @@ namespace FullStackCRM.Infra.Data.Repositories
             connectionString = ConfigurationHelper.ConnectionString;
         }
 
-        public async Task<List<Produto>> ListarAsync()
+        public async Task<List<Produto>> ListarAsync(string nome)
         {
             var produtos = new List<Produto>();
             var sql =
@@ -30,11 +30,21 @@ namespace FullStackCRM.Infra.Data.Repositories
             " WHERE                         " +
             "   1=1                         ";
 
+            if (nome != default)
+            {
+                sql += " AND Nome LIKE '%@nome%';";
+            }
+
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using var command = connection.CreateCommand();
+                if (nome != default)
+                {
+                    sql = sql.Replace("@nome", nome);
+                }
                 command.CommandText = sql;
+
                 using var reader = await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {
@@ -65,19 +75,26 @@ namespace FullStackCRM.Infra.Data.Repositories
                 connection.Open();
                 using (var transaction = connection.BeginTransaction())
                 {
-                    var insertCommand = connection.CreateCommand();
-                    insertCommand.CommandText = sql;
-                    var guid = Guid.NewGuid();
-                    produto.Id = guid;
-                    insertCommand.Parameters.AddWithValue("@id", guid.ToString().ToUpper());
-                    insertCommand.Parameters.AddWithValue("@nome", produto.Nome);
-                    insertCommand.Parameters.AddWithValue("@preco", produto.Preco);
-                    insertCommand.Transaction = transaction;
-                    await insertCommand.ExecuteNonQueryAsync();
+                    try
+                    {
+                        var insertCommand = connection.CreateCommand();
+                        insertCommand.CommandText = sql;
+                        var guid = Guid.NewGuid();
+                        produto.Id = guid;
+                        insertCommand.Parameters.AddWithValue("@id", guid.ToString().ToUpper());
+                        insertCommand.Parameters.AddWithValue("@nome", produto.Nome);
+                        insertCommand.Parameters.AddWithValue("@preco", produto.Preco);
+                        insertCommand.Transaction = transaction;
+                        await insertCommand.ExecuteNonQueryAsync();
 
-                    transaction.Commit();
-                    connection.Close();
-                    return produto;
+                        transaction.Commit();
+                        connection.Close();
+                        return produto;
+                    } catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
             }
         }
@@ -138,13 +155,14 @@ namespace FullStackCRM.Infra.Data.Repositories
             " FROM                          " +
             "   Produto                     " +
             " WHERE                         " +
-            "   1=1                         ";
+            "   Id = @id                    ";
 
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using var command = connection.CreateCommand();
                 command.CommandText = sql;
+                command.Parameters.AddWithValue("@id", id.ToString().ToUpper());
                 using var reader = await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {

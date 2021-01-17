@@ -158,18 +158,19 @@ namespace FullStackCRM.Infra.Data.Repositories
             var sql =
             " SELECT TOP(1)                 " +
             "   Id,                         " +
-            "   Email,                       " +
-            "   Perfil                       " +
+            "   Email,                      " +
+            "   Perfil                      " +
             " FROM                          " +
             "   Usuario                     " +
             " WHERE                         " +
-            "   1=1                         ";
+            "   Id = @id                    ";
 
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using var command = connection.CreateCommand();
                 command.CommandText = sql;
+                command.Parameters.AddWithValue("@id", id.ToString().ToUpper());
                 using var reader = await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {

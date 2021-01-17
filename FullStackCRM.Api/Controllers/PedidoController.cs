@@ -1,27 +1,28 @@
-using FullStackCRM.Application.Models;
+﻿using FullStackCRM.Application.Models;
 using FullStackCRM.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace FullStackCRM.Api.Controllers {
+namespace FullStackCRM.Api.Controllers
+{
     [ApiController]
     [Route("api/[controller]")]
-    public class ProdutosController : ControllerBase
+    public class PedidoController : ControllerBase
     {
-        private readonly IProdutoService _produtoService;
+        private readonly IPedidoService _pedidoService;
 
-        public ProdutosController(IProdutoService produtoService)
+        public PedidoController(IPedidoService pedidoService)
         {
-            _produtoService = produtoService;
+            _pedidoService = pedidoService;
         }
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Get(string nome)
+        public async Task<IActionResult> Get()
         {
-            var response = await _produtoService.ListarAsync(nome);
+            var response = await _pedidoService.ListarAsync();
             return Ok(response);
         }
 
@@ -29,33 +30,33 @@ namespace FullStackCRM.Api.Controllers {
         [Authorize]
         public async Task<IActionResult> Get(Guid id)
         {
-            var response = await _produtoService.ObterPorIdAsync(id);
+            var response = await _pedidoService.ObterPorIdAsync(id);
             return Ok(response);
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Post([FromBody] ProdutoModel produtoModel)
+        public async Task<IActionResult> Post([FromBody] PedidoModel pedidoModel)
         {
-            if (produtoModel is null)
+            if (pedidoModel is null)
             {
                 return BadRequest();
             }
 
-            var response = await _produtoService.InserirAsync(produtoModel);
+            var response = await _pedidoService.InserirAsync(pedidoModel);
             return Ok(response);
         }
 
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Put([FromBody] ProdutoModel produtoModel)
+        public async Task<IActionResult> Put([FromBody] PedidoModel produtoModel)
         {
             if (produtoModel is null)
             {
                 return BadRequest();
             }
 
-            var response = await _produtoService.AtualizarAsync(produtoModel);
+            var response = await _pedidoService.AtualizarAsync(produtoModel);
             return Ok(response);
         }
 
@@ -63,7 +64,7 @@ namespace FullStackCRM.Api.Controllers {
         [Authorize]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var response = await _produtoService.ExcluirAsync(id);
+            var response = await _pedidoService.ExcluirAsync(id);
             return Ok(response);
         }
     }
