@@ -20,6 +20,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using KissLog;
+using KissLog.AspNetCore;
+using KissLog.CloudListeners.Auth;
+using KissLog.CloudListeners.RequestLogsListener;
+using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 namespace FullStackCRM
 {
@@ -34,6 +40,12 @@ namespace FullStackCRM
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped((context) =>
+            {
+                return Logger.Factory.Get();
+            });
+
             services.AddCors();
             services.AddControllers()
                 .AddJsonOptions(options =>
@@ -138,6 +150,10 @@ namespace FullStackCRM
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseKissLogMiddleware(options => {
+                new Api.Configuration.KissLogConfiguration().ConfigureKissLog(options);
+            });
 
             app.UseEndpoints(endpoints =>
             {
