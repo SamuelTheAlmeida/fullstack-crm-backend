@@ -8,7 +8,7 @@ namespace FullStackCRM.Application.Services.Interfaces
 {
     public interface IUsuarioService
     {
-        Task<UsuarioModel> Autenticar(LoginModel loginModel);
+        Task<BaseModel<UsuarioModel>> Autenticar(LoginModel loginModel);
         Task<BaseModel<List<UsuarioModel>>> ListarAsync();
         Task<BaseModel<UsuarioModel>> InserirAsync(UsuarioModel usuarioModel);
         Task<BaseModel<UsuarioModel>> AtualizarAsync(UsuarioModel usuarioModel);

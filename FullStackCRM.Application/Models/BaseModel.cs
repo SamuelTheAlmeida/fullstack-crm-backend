@@ -1,8 +1,10 @@
-﻿using FullStackCRM.Domain.Enums;
+﻿using FluentValidation.Results;
+using FullStackCRM.Domain.Enums;
 using FullStackCRM.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 
 namespace FullStackCRM.Application.Models
@@ -26,18 +28,21 @@ namespace FullStackCRM.Application.Models
             };
         }
 
+        public BaseModel(bool sucesso, IList<ValidationFailure> errosValidacao)
+        {
+            Sucesso = sucesso;
+            ErrosValidacao = errosValidacao.Select(x => x.ErrorMessage);
+        }
+
         public BaseModel(bool sucesso, EMensagens mensagem, T dados) : this(sucesso, mensagem) => Dados = dados;
 
-        public BaseModel(bool sucesso, EMensagens mensagem, T dados, ValidationResult[] resultadoValidacao) : this(sucesso, mensagem, dados) => ResultadoValidacao = resultadoValidacao;
         #endregion
 
         #region Propriedades
         public T Dados { get; set; }
 
         public EnumModel Mensagem { get; set; }
-
-        public ValidationResult[] ResultadoValidacao { get; set; }
-
+        public IEnumerable<string> ErrosValidacao { get; set; }
         public bool Sucesso { get; set; }
         #endregion
 

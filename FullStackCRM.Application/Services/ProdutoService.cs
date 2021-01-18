@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using FullStackCRM.Domain.Enums;
+using FullStackCRM.Application.Validators;
 
 namespace FullStackCRM.Application.Services
 {
@@ -40,6 +41,12 @@ namespace FullStackCRM.Application.Services
 
         public async Task<BaseModel<ProdutoModel>> AtualizarAsync(ProdutoModel produtoModel)
         {
+            var validator = await new ProdutoModelValidator().ValidateAsync(produtoModel);
+            if (!validator.IsValid)
+            {
+                return new BaseModel<ProdutoModel>(false, validator.Errors);
+            }
+
             var produto = _mapper.Map<Produto>(produtoModel);
             var result = _mapper.Map<ProdutoModel>(await _produtoRepository.AtualizarAsync(produto));
             return new BaseModel<ProdutoModel>(true, EMensagens.RealizadaComSucesso, result);
@@ -47,6 +54,12 @@ namespace FullStackCRM.Application.Services
 
         public async Task<BaseModel<ProdutoModel>> InserirAsync(ProdutoModel produtoModel)
         {
+            var validator = await new ProdutoModelValidator().ValidateAsync(produtoModel);
+            if (!validator.IsValid)
+            {
+                return new BaseModel<ProdutoModel>(false, validator.Errors);
+            }
+
             var produto = _mapper.Map<Produto>(produtoModel);
             var result = _mapper.Map<ProdutoModel>(await _produtoRepository.InserirAsync(produto));
             return new BaseModel<ProdutoModel>(true, EMensagens.RealizadaComSucesso, result);

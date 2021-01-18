@@ -25,19 +25,8 @@ namespace FullStackCRM.Api.Controllers {
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var usuario = await _usuarioService.Autenticar(model);
-            if (usuario == default)
-            {
-                return NotFound(new { message = "Email ou senha inválidos." });
-            }
-
-            var token = _tokenService.GenerateToken(usuario);
-
-            return Ok(new
-            {
-                token,
-                usuario
-            });
+            var result = await _usuarioService.Autenticar(model);
+            return Ok(result);
         }
         
         [HttpGet]

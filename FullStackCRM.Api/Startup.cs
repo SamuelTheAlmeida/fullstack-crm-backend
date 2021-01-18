@@ -26,6 +26,7 @@ using KissLog.CloudListeners.Auth;
 using KissLog.CloudListeners.RequestLogsListener;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
+using FluentValidation.AspNetCore;
 
 namespace FullStackCRM
 {
@@ -51,7 +52,8 @@ namespace FullStackCRM
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.IgnoreNullValues = true;
-                });
+                })
+                .AddFluentValidation();
 
             services.AddSwaggerGen(c =>
             {
@@ -122,6 +124,11 @@ namespace FullStackCRM
                 options.DefaultRequestCulture = new RequestCulture(culture: "pt-BR", uiCulture: "pt-BR");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedUICultures;
+            });
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
             });
         }
 

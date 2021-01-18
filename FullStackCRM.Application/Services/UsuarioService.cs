@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FullStackCRM.Application.Models;
 using FullStackCRM.Application.Services.Interfaces;
+using FullStackCRM.Application.Validators;
 using FullStackCRM.Domain.Entities;
 using FullStackCRM.Domain.Enums;
 using FullStackCRM.Domain.Repositories;
@@ -15,33 +16,44 @@ namespace FullStackCRM.Application.Services
     public class UsuarioService : IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
 
-        public UsuarioService(IMapper mapper, IUsuarioRepository usuarioRepository)
+        public UsuarioService(IMapper mapper, IUsuarioRepository usuarioRepository, ITokenService tokenService)
         {
             _mapper = mapper;
             _usuarioRepository = usuarioRepository;
+            _tokenService = tokenService;
         }
 
         public async Task<BaseModel<UsuarioModel>> AtualizarAsync(UsuarioModel usuarioModel)
         {
             var usuario = _mapper.Map<Usuario>(usuarioModel);
             var result = _mapper.Map<UsuarioModel>(await _usuarioRepository.AtualizarAsync(usuario));
+
             return new BaseModel<UsuarioModel>(true, EMensagens.RealizadaComSucesso, result);
         }
 
-        public async Task<UsuarioModel> Autenticar(LoginModel loginModel)
+        public async Task<BaseModel<UsuarioModel>> Autenticar(LoginModel loginModel)
         {
-            try
+            var validator = await new LoginModelValidator().ValidateAsync(loginModel);
+            if (!validator.IsValid)
             {
-                var result = await _usuarioRepository.AutenticarAsync(loginModel.Email, loginModel.Senha);
-                var model = _mapper.Map<UsuarioModel>(result);
-                return model;
-            } catch (Exception e )
-            {
-                throw e;
+                return new BaseModel<UsuarioModel>(false, validator.Errors);
             }
 
+            var result = await _usuarioRepository.AutenticarAsync(loginModel.Email, loginModel.Senha);
+
+            if (result == default)
+            {
+                return new BaseModel<UsuarioModel>(false, EMensagens.EmailOuSenhaInvalidos);
+            }
+
+            var map = _mapper.Map<UsuarioModel>(result);
+            map.Token = _tokenService.GenerateToken(map);
+
+            var model = new BaseModel<UsuarioModel>(true, EMensagens.RealizadaComSucesso, map);
+            return model;
         }
 
         public async Task<BaseModel<UsuarioModel>> InserirAsync(UsuarioModel usuarioModel)
