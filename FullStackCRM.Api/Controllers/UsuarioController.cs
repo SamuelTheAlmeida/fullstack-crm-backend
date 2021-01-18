@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 
 namespace FullStackCRM.Api.Controllers {
-
+    [Produces("application/json")]
     [Route("api/[controller]")]
     public class UsuarioController : ControllerBase
     {
@@ -23,9 +23,9 @@ namespace FullStackCRM.Api.Controllers {
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] UsuarioModel model)
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var usuario = await _usuarioService.Autenticar(model.Email, model.Senha);
+            var usuario = await _usuarioService.Autenticar(model);
             if (usuario == default)
             {
                 return NotFound(new { message = "Email ou senha inválidos." });

@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 
 namespace FullStackCRM.Api.Controllers {
+    [Produces("application/json")]
     [ApiController]
     [Route("api/[controller]")]
     public class ProdutosController : ControllerBase

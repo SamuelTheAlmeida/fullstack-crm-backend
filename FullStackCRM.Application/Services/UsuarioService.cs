@@ -30,11 +30,11 @@ namespace FullStackCRM.Application.Services
             return new BaseModel<UsuarioModel>(true, EMensagens.RealizadaComSucesso, result);
         }
 
-        public async Task<UsuarioModel> Autenticar(string usuario, string senha)
+        public async Task<UsuarioModel> Autenticar(LoginModel loginModel)
         {
             try
             {
-                var result = await _usuarioRepository.AutenticarAsync(usuario, senha);
+                var result = await _usuarioRepository.AutenticarAsync(loginModel.Email, loginModel.Senha);
                 var model = _mapper.Map<UsuarioModel>(result);
                 return model;
             } catch (Exception e )
