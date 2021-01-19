@@ -13,10 +13,12 @@ namespace FullStackCRM.Application.Validators
             RuleFor(x => x.Nome)
                 .NotEmpty()
                 .NotNull();
-            
+
             RuleFor(x => x.Preco)
                 .NotEmpty()
-                .NotNull();
+                .NotNull()
+                .Must(x => decimal.TryParse(x, out _))
+                .WithMessage("Valor inválido para preço do produto");
         }
     }
 }

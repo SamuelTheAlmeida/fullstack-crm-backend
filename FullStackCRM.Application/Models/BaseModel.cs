@@ -37,7 +37,7 @@ namespace FullStackCRM.Application.Models
             errosValidacao
                 .ToList().ForEach(e => Mensagens.ToList().Add(new EnumModel()
             {
-                Codigo = Convert.ToInt32(e.ErrorCode),
+                Codigo = 99,
                 Nome = e.PropertyName,
                 Descricao = e.ErrorMessage
             }));

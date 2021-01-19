@@ -28,6 +28,12 @@ namespace FullStackCRM.Application.Services
 
         public async Task<BaseModel<UsuarioCadastroModel>> AtualizarAsync(UsuarioCadastroModel usuarioCadastroModel)
         {
+            var validator = await new UsuarioCadastroModelValidator().ValidateAsync(usuarioCadastroModel);
+            if (!validator.IsValid)
+            {
+                return new BaseModel<UsuarioCadastroModel>(false, validator.Errors);
+            }
+
             var usuario = _mapper.Map<Usuario>(usuarioCadastroModel);
             var result = _mapper.Map<UsuarioCadastroModel>(await _usuarioRepository.AtualizarAsync(usuario));
 
