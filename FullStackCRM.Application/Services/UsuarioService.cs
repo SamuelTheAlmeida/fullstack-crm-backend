@@ -26,12 +26,12 @@ namespace FullStackCRM.Application.Services
             _tokenService = tokenService;
         }
 
-        public async Task<BaseModel<UsuarioModel>> AtualizarAsync(UsuarioModel usuarioModel)
+        public async Task<BaseModel<UsuarioCadastroModel>> AtualizarAsync(UsuarioCadastroModel usuarioCadastroModel)
         {
-            var usuario = _mapper.Map<Usuario>(usuarioModel);
-            var result = _mapper.Map<UsuarioModel>(await _usuarioRepository.AtualizarAsync(usuario));
+            var usuario = _mapper.Map<Usuario>(usuarioCadastroModel);
+            var result = _mapper.Map<UsuarioCadastroModel>(await _usuarioRepository.AtualizarAsync(usuario));
 
-            return new BaseModel<UsuarioModel>(true, EMensagens.RealizadaComSucesso, result);
+            return new BaseModel<UsuarioCadastroModel>(true, EMensagens.RealizadaComSucesso, result);
         }
 
         public async Task<BaseModel<UsuarioModel>> Autenticar(LoginModel loginModel)
@@ -56,11 +56,17 @@ namespace FullStackCRM.Application.Services
             return model;
         }
 
-        public async Task<BaseModel<UsuarioModel>> InserirAsync(UsuarioModel usuarioModel)
+        public async Task<BaseModel<UsuarioCadastroModel>> InserirAsync(UsuarioCadastroModel usuarioCadastroModel)
         {
-            var usuario = _mapper.Map<Usuario>(usuarioModel);
-            var result = _mapper.Map<UsuarioModel>(await _usuarioRepository.InserirAsync(usuario));
-            return new BaseModel<UsuarioModel>(true, EMensagens.RealizadaComSucesso, result);
+            var validator = await new UsuarioCadastroModelValidator().ValidateAsync(usuarioCadastroModel);
+            if (!validator.IsValid)
+            {
+                return new BaseModel<UsuarioCadastroModel>(false, validator.Errors);
+            }
+
+            var usuario = _mapper.Map<Usuario>(usuarioCadastroModel);
+            var result = _mapper.Map<UsuarioCadastroModel>(await _usuarioRepository.InserirAsync(usuario));
+            return new BaseModel<UsuarioCadastroModel>(true, EMensagens.RealizadaComSucesso, result);
         }
 
         public async Task<BaseModel<List<UsuarioModel>>> ListarAsync()
@@ -79,6 +85,22 @@ namespace FullStackCRM.Application.Services
         {
             await _usuarioRepository.ExcluirAsync(id);
             return new BaseModel<UsuarioModel>(true, EMensagens.RealizadaComSucesso);
+        }
+
+        public BaseModel<List<EnumModel>> ListarPerfis()
+        {
+            var perfis = Enum.GetValues(typeof(EPerfis));
+            var result = new List<EnumModel>();
+            foreach (var perfil in perfis)
+            {
+                result.Add(new EnumModel()
+                {
+                    Codigo = ((EPerfis)perfil).GetEnumValue(),
+                    Nome = ((EPerfis)perfil).GetEnumName(),
+                    Descricao = ((EPerfis)perfil).GetEnumDescription()
+                });
+            }
+            return new BaseModel<List<EnumModel>>(true, EMensagens.RealizadaComSucesso, result);
         }
     }
 }

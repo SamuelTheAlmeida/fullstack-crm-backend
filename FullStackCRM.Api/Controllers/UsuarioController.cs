@@ -47,27 +47,27 @@ namespace FullStackCRM.Api.Controllers {
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Post([FromBody] UsuarioModel usuarioModel)
+        public async Task<IActionResult> Post([FromBody] UsuarioCadastroModel usuarioCadastroModel)
         {
-            if (usuarioModel is null)
+            if (usuarioCadastroModel is null)
             {
                 return BadRequest();
             }
 
-            var response = await _usuarioService.InserirAsync(usuarioModel);
+            var response = await _usuarioService.InserirAsync(usuarioCadastroModel);
             return Ok(response);
         }
 
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Put([FromBody] UsuarioModel usuarioModel)
+        public async Task<IActionResult> Put([FromBody] UsuarioCadastroModel usuarioCadastroModel)
         {
-            if (usuarioModel is null)
+            if (usuarioCadastroModel is null)
             {
                 return BadRequest();
             }
 
-            var response = await _usuarioService.AtualizarAsync(usuarioModel);
+            var response = await _usuarioService.AtualizarAsync(usuarioCadastroModel);
             return Ok(response);
         }
 
@@ -76,6 +76,15 @@ namespace FullStackCRM.Api.Controllers {
         public async Task<IActionResult> Delete(Guid id)
         {
             var response = await _usuarioService.ExcluirAsync(id);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("perfis")]
+        public IActionResult GetPerfis()
+        {
+            var response = _usuarioService.ListarPerfis();
             return Ok(response);
         }
     }

@@ -10,9 +10,10 @@ namespace FullStackCRM.Application.Services.Interfaces
     {
         Task<BaseModel<UsuarioModel>> Autenticar(LoginModel loginModel);
         Task<BaseModel<List<UsuarioModel>>> ListarAsync();
-        Task<BaseModel<UsuarioModel>> InserirAsync(UsuarioModel usuarioModel);
-        Task<BaseModel<UsuarioModel>> AtualizarAsync(UsuarioModel usuarioModel);
+        Task<BaseModel<UsuarioCadastroModel>> InserirAsync(UsuarioCadastroModel usuarioCadastroModel);
+        Task<BaseModel<UsuarioCadastroModel>> AtualizarAsync(UsuarioCadastroModel usuarioCadastroModel);
         Task<BaseModel<UsuarioModel>> ObterPorIdAsync(Guid id);
         Task<BaseModel<UsuarioModel>> ExcluirAsync(Guid id);
+        BaseModel<List<EnumModel>> ListarPerfis();
     }
 }

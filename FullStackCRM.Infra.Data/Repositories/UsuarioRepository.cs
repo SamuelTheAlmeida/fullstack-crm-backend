@@ -129,7 +129,7 @@ namespace FullStackCRM.Infra.Data.Repositories
             " UPDATE Usuario            " +
             " SET                       " +
             "   Email = @email,         " +
-            "   Perfil = @perfl,        " +
+            "   Perfil = @perfil,       " +
             "   Senha = @senha          " +
             " WHERE                     " +
             "   Id = @id;               ";
