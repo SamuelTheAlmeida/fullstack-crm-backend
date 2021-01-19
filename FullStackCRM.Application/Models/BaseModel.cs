@@ -20,18 +20,27 @@ namespace FullStackCRM.Application.Models
         public BaseModel(bool sucesso, EMensagens mensagem)
         {
             Sucesso = sucesso;
-            Mensagem = new EnumModel
+            Mensagens = new EnumModel[]
             {
-                Codigo = mensagem.GetEnumValue(),
-                Nome = mensagem.GetEnumName(),
-                Descricao = mensagem.GetEnumDescription()
+                new EnumModel() {
+                    Codigo = mensagem.GetEnumValue(),
+                    Nome = mensagem.GetEnumName(),
+                    Descricao = mensagem.GetEnumDescription()
+                }
             };
         }
 
         public BaseModel(bool sucesso, IList<ValidationFailure> errosValidacao)
         {
             Sucesso = sucesso;
-            ErrosValidacao = errosValidacao.Select(x => x.ErrorMessage);
+            Mensagens = new EnumModel[] { };
+            errosValidacao
+                .ToList().ForEach(e => Mensagens.ToList().Add(new EnumModel()
+            {
+                Codigo = Convert.ToInt32(e.ErrorCode),
+                Nome = e.PropertyName,
+                Descricao = e.ErrorMessage
+            }));
         }
 
         public BaseModel(bool sucesso, EMensagens mensagem, T dados) : this(sucesso, mensagem) => Dados = dados;
@@ -41,7 +50,7 @@ namespace FullStackCRM.Application.Models
         #region Propriedades
         public T Dados { get; set; }
 
-        public EnumModel Mensagem { get; set; }
+        public EnumModel[] Mensagens { get; set; }
         public IEnumerable<string> ErrosValidacao { get; set; }
         public bool Sucesso { get; set; }
         #endregion
