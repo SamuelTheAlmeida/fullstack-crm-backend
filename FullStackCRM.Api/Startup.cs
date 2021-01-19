@@ -27,6 +27,7 @@ using KissLog.CloudListeners.RequestLogsListener;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using FluentValidation.AspNetCore;
+using RabbitMQ.Client.Core.DependencyInjection;
 
 namespace FullStackCRM
 {
@@ -106,6 +107,13 @@ namespace FullStackCRM
                 });
 
             ConfigurationHelper.CarregarConfiguracoes(Configuration);
+
+            var rabbitMqSection = Configuration.GetSection("RabbitMq");
+            var exchangeSection = Configuration.GetSection("RabbitMqExchange");
+
+            services.AddRabbitMqClient(rabbitMqSection)
+                .AddProductionExchange("exchange.name", exchangeSection);
+
             services.RegisterServices();
 
             services.AddAutoMapper(typeof(UsuarioMapper));
@@ -148,13 +156,14 @@ namespace FullStackCRM
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
+            
 
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 

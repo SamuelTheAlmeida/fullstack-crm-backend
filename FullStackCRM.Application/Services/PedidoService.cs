@@ -5,6 +5,7 @@ using FullStackCRM.Application.Validators;
 using FullStackCRM.Domain.Entities;
 using FullStackCRM.Domain.Enums;
 using FullStackCRM.Domain.Repositories;
+using RabbitMQ.Client.Core.DependencyInjection.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,10 +17,15 @@ namespace FullStackCRM.Application.Services
     {
         private readonly IMapper _mapper;
         private readonly IPedidoRepository _pedidoRepository;
-        public PedidoService(IMapper mapper, IPedidoRepository pedidoRepository)
+        private readonly IQueueService _queueService;
+
+        public PedidoService(IMapper mapper, 
+            IPedidoRepository pedidoRepository,
+            IQueueService queueService)
         {
             _mapper = mapper;
             _pedidoRepository = pedidoRepository;
+            _queueService = queueService;
         }
         public async Task<BaseModel<PedidoModel>> InserirAsync(PedidoModel pedidoModel)
         {
@@ -31,6 +37,8 @@ namespace FullStackCRM.Application.Services
 
             var pedido = _mapper.Map<Pedido>(pedidoModel);
             var result = _mapper.Map<PedidoModel>(await _pedidoRepository.InserirAsync(pedido));
+
+            await EnviarEmailPedidoRealizado(result);
             return new BaseModel<PedidoModel>(true, EMensagens.RealizadaComSucesso, result);
         }
 
@@ -44,6 +52,7 @@ namespace FullStackCRM.Application.Services
 
             var pedido = _mapper.Map<Pedido>(pedidoModel);
             var result = _mapper.Map<PedidoModel>(await _pedidoRepository.AtualizarAsync(pedido));
+            await EnviarEmailPedidoRealizado(result);
             return new BaseModel<PedidoModel>(true, EMensagens.RealizadaComSucesso, result);
         }
 
@@ -66,6 +75,14 @@ namespace FullStackCRM.Application.Services
         {
             await _pedidoRepository.ExcluirAsync(id);
             return new BaseModel<PedidoModel>(true, EMensagens.RealizadaComSucesso);
+        }
+
+        private async Task EnviarEmailPedidoRealizado(PedidoModel pedido)
+        {
+            await _queueService.SendAsync(
+                @object: pedido,
+                exchangeName: "exchange.name",
+                routingKey: "routing.key");
         }
     }
 }

@@ -55,3 +55,4 @@ sonar-build-test.cmd
 
 *.dbmdl
 *.jfm
+/.docker/rabbitmq
