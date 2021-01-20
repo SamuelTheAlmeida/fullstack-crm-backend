@@ -17,8 +17,8 @@
 - Poderá ser usado o usuário padrão ou criado um novo cadastro
 
 ##### Perfis
-- Administrador (1): Gerencia Usuários, Produtos e Pedidos
-- Funcionário (2): Gerencia Produtos e Pedidos
+- Administrador (1): Gerenciar Usuários, Produtos e Pedidos
+- Funcionário (2): Gerenciar Produtos e Pedidos
 
 #### Usuários padrão: 
 ##### API
