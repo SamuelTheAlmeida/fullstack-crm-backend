@@ -47,7 +47,6 @@ namespace FullStackCRM.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Post([FromBody] UsuarioCadastroModel usuarioCadastroModel)
         {
             if (usuarioCadastroModel is null)
@@ -81,7 +80,6 @@ namespace FullStackCRM.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrador")]
         [Route("perfis")]
         public IActionResult GetPerfis()
         {
