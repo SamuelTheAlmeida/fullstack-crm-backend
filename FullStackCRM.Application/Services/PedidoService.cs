@@ -6,6 +6,7 @@ using FullStackCRM.Domain.Entities;
 using FullStackCRM.Domain.Enums;
 using FullStackCRM.Domain.Repositories;
 using FullStackCRM.Shared;
+using Newtonsoft.Json;
 using RabbitMQ.Client.Core.DependencyInjection.Services;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,15 @@ namespace FullStackCRM.Application.Services
     {
         private readonly IMapper _mapper;
         private readonly IPedidoRepository _pedidoRepository;
-        private readonly IQueueService _queueService;
+        private readonly IRabbitMqRepository _rabbitMqRepository;
 
         public PedidoService(IMapper mapper,
             IPedidoRepository pedidoRepository,
-            IQueueService queueService)
+            IRabbitMqRepository rabbitMqRepository)
         {
             _mapper = mapper;
             _pedidoRepository = pedidoRepository;
-            _queueService = queueService;
+            _rabbitMqRepository = rabbitMqRepository;
         }
         public async Task<BaseModel<PedidoModel>> InserirAsync(PedidoModel pedidoModel)
         {
@@ -38,7 +39,7 @@ namespace FullStackCRM.Application.Services
             var pedido = _mapper.Map<Pedido>(pedidoModel);
             var result = _mapper.Map<PedidoModel>(await _pedidoRepository.InserirAsync(pedido));
 
-            await EnviarEmailPedidoRealizado(result);
+            await _rabbitMqRepository.EnviarMensagemFilaEmail(JsonConvert.SerializeObject(result));
             return new BaseModel<PedidoModel>(true, EMensagens.RealizadaComSucesso, result);
         }
 
@@ -52,7 +53,7 @@ namespace FullStackCRM.Application.Services
 
             var pedido = _mapper.Map<Pedido>(pedidoModel);
             var result = _mapper.Map<PedidoModel>(await _pedidoRepository.AtualizarAsync(pedido));
-            await EnviarEmailPedidoRealizado(result);
+            await _rabbitMqRepository.EnviarMensagemFilaEmail(JsonConvert.SerializeObject(result));
             return new BaseModel<PedidoModel>(true, EMensagens.RealizadaComSucesso, result);
         }
 
@@ -77,12 +78,6 @@ namespace FullStackCRM.Application.Services
             return new BaseModel<PedidoModel>(true, EMensagens.RealizadaComSucesso);
         }
 
-        private async Task EnviarEmailPedidoRealizado(PedidoModel pedido)
-        {
-            await _queueService.SendAsync(
-                @object: pedido,
-                exchangeName: ConfigurationHelper.RabbitMqExchange,
-                routingKey: ConfigurationHelper.RabbitMqRoutingKey);
-        }
+
     }
 }

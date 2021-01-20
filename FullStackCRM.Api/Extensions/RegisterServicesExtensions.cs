@@ -18,6 +18,7 @@ namespace FullStackCRM.Api.Extensions
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();
+            services.AddScoped<IRabbitMqRepository, RabbitMqRepository>();
         }
     }
 }

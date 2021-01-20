@@ -48,8 +48,8 @@ namespace FullStackCRM.Tests.Application.Services.Fixture
             Mapper = config.CreateMapper();
 
             PedidoRepository = new Mock<IPedidoRepository>();
-            var queueService = new Mock<IQueueService>();
-            PedidoService = new PedidoService(Mapper, PedidoRepository.Object, queueService.Object);
+            var rabbitMqRepository = new Mock<IRabbitMqRepository>();
+            PedidoService = new PedidoService(Mapper, PedidoRepository.Object, rabbitMqRepository.Object);
         }
 
         public void Dispose()

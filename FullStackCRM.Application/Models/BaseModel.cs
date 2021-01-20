@@ -30,14 +30,13 @@ namespace FullStackCRM.Application.Models
         public BaseModel(bool sucesso, IList<ValidationFailure> errosValidacao)
         {
             Sucesso = sucesso;
-            Mensagens = new EnumModel[] { };
-            errosValidacao
-                .ToList().ForEach(e => Mensagens.ToList().Add(new EnumModel()
-                {
-                    Codigo = 99,
-                    Nome = e.PropertyName,
-                    Descricao = e.ErrorMessage
-                }));
+            Mensagens = errosValidacao.Select(x => new EnumModel
+            {
+                Codigo = 99,
+                Nome = x.PropertyName,
+                Descricao = x.ErrorMessage
+            }).ToArray();
+
         }
 
         public BaseModel(bool sucesso, EMensagens mensagem, T dados) : this(sucesso, mensagem) => Dados = dados;

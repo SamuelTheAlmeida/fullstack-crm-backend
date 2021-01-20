@@ -31,7 +31,7 @@ namespace FullStackCRM.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Get()
         {
             var response = await _usuarioService.ListarAsync();
@@ -39,7 +39,7 @@ namespace FullStackCRM.Api.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Get(Guid id)
         {
             var response = await _usuarioService.ObterPorIdAsync(id);
@@ -47,7 +47,7 @@ namespace FullStackCRM.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Post([FromBody] UsuarioCadastroModel usuarioCadastroModel)
         {
             if (usuarioCadastroModel is null)
@@ -60,7 +60,7 @@ namespace FullStackCRM.Api.Controllers
         }
 
         [HttpPut]
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Put([FromBody] UsuarioCadastroModel usuarioCadastroModel)
         {
             if (usuarioCadastroModel is null)
@@ -73,7 +73,7 @@ namespace FullStackCRM.Api.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var response = await _usuarioService.ExcluirAsync(id);
@@ -81,7 +81,7 @@ namespace FullStackCRM.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         [Route("perfis")]
         public IActionResult GetPerfis()
         {
