@@ -21,12 +21,12 @@
 - Funcionário (2): Gerencia Produtos e Pedidos
 
 #### Usuários padrão: 
-#####API
+##### API
 usuário: samuel.t.almeida@gmail.com
 senha: bne (criptografar em MD5 para a API)
-#####RabbitMQ
+##### RabbitMQ
 usuário: rabbitmq
 senha: rabbitmq
-#####SQL Server
+##### SQL Server
 usuário: SA
 senha: S3nh@123
