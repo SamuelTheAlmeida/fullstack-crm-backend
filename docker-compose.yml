@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  ms-sql-server:
+    build:
+      context: .
+      dockerfile: FullStackCRM.Api/docker/db/Dockerfile
+    ports:
+      - "1433:1433"
+  rabbit1:
+    image: "rabbitmq:3-management"
+    hostname: "rabbit1"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    labels:
+      NAME: "rabbitmq1"
+  fullstackcrm.api:
+    image: ${DOCKER_REGISTRY-}fullstackcrmapi
+    build:
+      context: .
+      dockerfile: FullStackCRM.Api/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ConnectionStrings:DefaultConnection"="Server=localhost,1433;Database=BNE;User Id=SA;Password=S3nh@123;
