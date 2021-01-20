@@ -22,11 +22,11 @@
 
 #### Usuários padrão: 
 ##### API
-usuário: samuel.t.almeida@gmail.com
-senha: bne (criptografar em MD5 para a API)
+- usuário: samuel.t.almeida@gmail.com
+- senha: bne (criptografar em MD5 para a API)
 ##### RabbitMQ
-usuário: rabbitmq
-senha: rabbitmq
+- usuário: rabbitmq
+- senha: rabbitmq
 ##### SQL Server
-usuário: SA
-senha: S3nh@123
+- usuário: SA
+- senha: S3nh@123
