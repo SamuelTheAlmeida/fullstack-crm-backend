@@ -1,8 +1,5 @@
 ﻿using FluentAssertions;
 using FullStackCRM.Tests.Application.Services.Fixture;
-using Moq;
-using System;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace FullStackCRM.Tests.Application.Services.UsuarioServiceTests.cs

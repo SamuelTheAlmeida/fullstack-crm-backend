@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using FullStackCRM.Application.Models;
 using FullStackCRM.Application.Services.Interfaces;
+using FullStackCRM.Application.Validators;
 using FullStackCRM.Domain.Entities;
+using FullStackCRM.Domain.Enums;
 using FullStackCRM.Domain.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using FullStackCRM.Domain.Enums;
-using FullStackCRM.Application.Validators;
 
 namespace FullStackCRM.Application.Services
 {

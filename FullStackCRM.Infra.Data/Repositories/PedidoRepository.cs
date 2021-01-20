@@ -130,7 +130,7 @@ namespace FullStackCRM.Infra.Data.Repositories
                     insertCommand.Transaction = transaction;
                     await insertCommand.ExecuteNonQueryAsync();
 
-                    pedido.ProdutosPedido.ForEach(item => 
+                    pedido.ProdutosPedido.ForEach(item =>
                         InserirProdutoPedido(item, pedido, connection, transaction));
 
                     transaction.Commit();

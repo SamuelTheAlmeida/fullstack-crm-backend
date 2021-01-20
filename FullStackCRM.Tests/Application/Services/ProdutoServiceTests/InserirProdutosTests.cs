@@ -1,16 +1,12 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FullStackCRM.Application.Models;
-using FullStackCRM.Application.Services.Interfaces;
 using FullStackCRM.Domain.Entities;
 using FullStackCRM.Tests.Application.Services.Fixture;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Extensions;
 
 namespace FullStackCRM.Tests.Application.Services.ProdutoServiceTests
 {

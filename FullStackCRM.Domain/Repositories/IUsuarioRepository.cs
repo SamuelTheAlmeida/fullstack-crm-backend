@@ -7,7 +7,7 @@ namespace FullStackCRM.Domain.Repositories
 {
     public interface IUsuarioRepository
     {
-        Task<Usuario> AutenticarAsync(string usuario, string senha);
+        Task<Usuario> AutenticarAsync(string email, string senha);
         Task<List<Usuario>> ListarAsync();
         Task<Usuario> InserirAsync(Usuario usuario);
         Task<Usuario> AtualizarAsync(Usuario usuario);

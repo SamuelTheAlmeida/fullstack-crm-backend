@@ -7,7 +7,6 @@ using FullStackCRM.Domain.Repositories;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FullStackCRM.Tests.Application.Services.Fixture
 {
@@ -50,7 +49,21 @@ namespace FullStackCRM.Tests.Application.Services.Fixture
 
         public void Dispose()
         {
-            DbProdutos = null;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~ProdutoFixture()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                DbProdutos = null;
+            }
         }
     }
 }

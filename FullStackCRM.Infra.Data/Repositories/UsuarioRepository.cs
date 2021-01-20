@@ -1,12 +1,10 @@
-﻿using FullStackCRM.Domain;
-using FullStackCRM.Domain.Entities;
+﻿using FullStackCRM.Domain.Entities;
 using FullStackCRM.Domain.Enums;
 using FullStackCRM.Domain.Repositories;
 using FullStackCRM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FullStackCRM.Infra.Data.Repositories
@@ -21,7 +19,7 @@ namespace FullStackCRM.Infra.Data.Repositories
 
         public async Task<Usuario> AutenticarAsync(string email, string senha)
         {
-            var query = 
+            var query =
             " SELECT                        " +
             "   Id,                         " +
             "   Email,                      " +
@@ -33,7 +31,7 @@ namespace FullStackCRM.Infra.Data.Repositories
             "   AND email = @email          " +
             "   AND senha = @senha          ";
 
-                using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using var command = connection.CreateCommand();
@@ -41,7 +39,7 @@ namespace FullStackCRM.Infra.Data.Repositories
                 command.Parameters.AddWithValue("@email", email);
                 command.Parameters.AddWithValue("@senha", senha);
                 using var reader = await command.ExecuteReaderAsync();
-                while (await reader.ReadAsync())
+                if (await reader.ReadAsync())
                 {
                     return new Usuario()
                     {
@@ -172,7 +170,7 @@ namespace FullStackCRM.Infra.Data.Repositories
                 command.CommandText = sql;
                 command.Parameters.AddWithValue("@id", id.ToString().ToUpper());
                 using var reader = await command.ExecuteReaderAsync();
-                while (await reader.ReadAsync())
+                if (await reader.ReadAsync())
                 {
                     var usuario = new Usuario()
                     {

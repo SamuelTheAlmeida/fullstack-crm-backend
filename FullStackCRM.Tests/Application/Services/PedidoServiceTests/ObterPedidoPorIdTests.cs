@@ -2,10 +2,7 @@
 using FullStackCRM.Application.Models;
 using FullStackCRM.Tests.Application.Services.Fixture;
 using Moq;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -51,8 +48,6 @@ namespace FullStackCRM.Tests.Application.Services.PedidoServiceTests
             fixture.PedidoRepository.Setup(x => x
             .ObterPorIdAsync(id))
                 .ReturnsAsync(() => pedidos.FirstOrDefault(x => x.Id == id));
-
-            var map = fixture.Mapper.Map<PedidoModel>(pedidos.FirstOrDefault(x => x.Id == id));
 
             // Act
             var result = await fixture.PedidoService.ObterPorIdAsync(id);

@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace FullStackCRM.Api.Controllers {
+namespace FullStackCRM.Api.Controllers
+{
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class UsuarioController : ControllerBase
@@ -28,7 +29,7 @@ namespace FullStackCRM.Api.Controllers {
             var result = await _usuarioService.Autenticar(model);
             return Ok(result);
         }
-        
+
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Get()

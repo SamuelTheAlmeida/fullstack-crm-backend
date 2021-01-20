@@ -1,11 +1,8 @@
 ﻿using FluentValidation.Results;
 using FullStackCRM.Domain.Enums;
 using FullStackCRM.Shared;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 
 namespace FullStackCRM.Application.Models
 {
@@ -36,11 +33,11 @@ namespace FullStackCRM.Application.Models
             Mensagens = new EnumModel[] { };
             errosValidacao
                 .ToList().ForEach(e => Mensagens.ToList().Add(new EnumModel()
-            {
-                Codigo = 99,
-                Nome = e.PropertyName,
-                Descricao = e.ErrorMessage
-            }));
+                {
+                    Codigo = 99,
+                    Nome = e.PropertyName,
+                    Descricao = e.ErrorMessage
+                }));
         }
 
         public BaseModel(bool sucesso, EMensagens mensagem, T dados) : this(sucesso, mensagem) => Dados = dados;

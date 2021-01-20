@@ -2,14 +2,14 @@
 using FullStackCRM.Application.Models;
 using FullStackCRM.Domain.Entities;
 using FullStackCRM.Domain.Enums;
+using FullStackCRM.Shared;
 using FullStackCRM.Tests.Application.Services.Fixture;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using FullStackCRM.Shared;
-using System.Linq;
 
 namespace FullStackCRM.Tests.Application.Services.UsuarioServiceTests.cs
 {
@@ -65,8 +65,6 @@ namespace FullStackCRM.Tests.Application.Services.UsuarioServiceTests.cs
         public async Task AutenticarComSenhaIncorreta_RetornaErro(LoginModel loginModel)
         {
             // Arrange
-            var usuario = fixture.Mapper.Map<Usuario>(loginModel);
-
             fixture.UsuarioRepository.Setup(x => x
             .AutenticarAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(() => default);

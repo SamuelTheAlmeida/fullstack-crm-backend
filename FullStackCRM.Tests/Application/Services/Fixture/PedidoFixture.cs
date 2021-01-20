@@ -8,7 +8,6 @@ using Moq;
 using RabbitMQ.Client.Core.DependencyInjection.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FullStackCRM.Tests.Application.Services.Fixture
 {
@@ -55,7 +54,21 @@ namespace FullStackCRM.Tests.Application.Services.Fixture
 
         public void Dispose()
         {
-            DbPedidos = null;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~PedidoFixture()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                DbPedidos = null;
+            }
         }
     }
 }

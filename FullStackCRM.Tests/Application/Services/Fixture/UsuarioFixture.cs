@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
+using FullStackCRM.Application.Models;
+using FullStackCRM.Application.Services;
 using FullStackCRM.Application.Services.Interfaces;
 using FullStackCRM.Domain.Entities;
 using FullStackCRM.Domain.Enums;
 using FullStackCRM.Domain.Repositories;
+using FullStackCRM.Shared;
 using Moq;
 using System;
 using System.Collections.Generic;
-using FullStackCRM.Shared;
-using System.Text;
-using FullStackCRM.Application.Models;
-using FullStackCRM.Application.Services;
 
 namespace FullStackCRM.Tests.Application.Services.Fixture
 {
@@ -63,7 +62,21 @@ namespace FullStackCRM.Tests.Application.Services.Fixture
 
         public void Dispose()
         {
-            
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~UsuarioFixture()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                DbUsuarios = null;
+            }
         }
     }
 }

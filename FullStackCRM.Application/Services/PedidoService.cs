@@ -5,10 +5,10 @@ using FullStackCRM.Application.Validators;
 using FullStackCRM.Domain.Entities;
 using FullStackCRM.Domain.Enums;
 using FullStackCRM.Domain.Repositories;
+using FullStackCRM.Shared;
 using RabbitMQ.Client.Core.DependencyInjection.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FullStackCRM.Application.Services
@@ -19,7 +19,7 @@ namespace FullStackCRM.Application.Services
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IQueueService _queueService;
 
-        public PedidoService(IMapper mapper, 
+        public PedidoService(IMapper mapper,
             IPedidoRepository pedidoRepository,
             IQueueService queueService)
         {
@@ -81,8 +81,8 @@ namespace FullStackCRM.Application.Services
         {
             await _queueService.SendAsync(
                 @object: pedido,
-                exchangeName: "exchange.name",
-                routingKey: "routing.key");
+                exchangeName: ConfigurationHelper.RabbitMqExchange,
+                routingKey: ConfigurationHelper.RabbitMqRoutingKey);
         }
     }
 }

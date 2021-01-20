@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FullStackCRM.Application
+﻿namespace FullStackCRM.Application
 {
     public class Class1
     {

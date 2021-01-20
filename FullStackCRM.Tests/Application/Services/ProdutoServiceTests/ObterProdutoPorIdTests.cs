@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FullStackCRM.Application.Models;
-using FullStackCRM.Application.Services.Interfaces;
 using FullStackCRM.Tests.Application.Services.Fixture;
 using Moq;
 using System.Linq;
@@ -50,8 +48,6 @@ namespace FullStackCRM.Tests.Application.Services.ProdutoServiceTests
             fixture.ProdutoRepository.Setup(x => x
             .ObterPorIdAsync(id))
                 .ReturnsAsync(() => produtos.FirstOrDefault(x => x.Id == id));
-
-            var map = fixture.Mapper.Map<ProdutoModel>(produtos.FirstOrDefault(x => x.Id == id));
 
             // Act
             var result = await fixture.ProdutoService.ObterPorIdAsync(id);

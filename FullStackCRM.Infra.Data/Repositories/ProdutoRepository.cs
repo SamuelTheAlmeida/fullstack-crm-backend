@@ -4,7 +4,6 @@ using FullStackCRM.Shared;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FullStackCRM.Infra.Data.Repositories
@@ -90,7 +89,8 @@ namespace FullStackCRM.Infra.Data.Repositories
                         transaction.Commit();
                         connection.Close();
                         return produto;
-                    } catch
+                    }
+                    catch
                     {
                         transaction.Rollback();
                         throw;
@@ -164,7 +164,7 @@ namespace FullStackCRM.Infra.Data.Repositories
                 command.CommandText = sql;
                 command.Parameters.AddWithValue("@id", id.ToString().ToUpper());
                 using var reader = await command.ExecuteReaderAsync();
-                while (await reader.ReadAsync())
+                if (await reader.ReadAsync())
                 {
                     var produto = new Produto()
                     {

@@ -1,8 +1,5 @@
 ﻿using FluentValidation;
 using FullStackCRM.Application.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FullStackCRM.Application.Validators
 {
@@ -25,7 +22,7 @@ namespace FullStackCRM.Application.Validators
                 .NotNull()
                 .Length(32)
                 .WithMessage("Senha em formato inválido.");
-               
+
         }
     }
 }

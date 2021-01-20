@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FullStackCRM.Application.Models;
-using FullStackCRM.Application.Services.Interfaces;
-using FullStackCRM.Domain.Entities;
-using FullStackCRM.Domain.Repositories;
 using FullStackCRM.Tests.Application.Services.Fixture;
 using Moq;
 using System.Collections.Generic;

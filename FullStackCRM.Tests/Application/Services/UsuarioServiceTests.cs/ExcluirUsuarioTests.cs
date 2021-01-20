@@ -1,11 +1,6 @@
-﻿using AutoMapper;
-using FluentAssertions;
-using FullStackCRM.Application.Models;
-using FullStackCRM.Application.Services.Interfaces;
+﻿using FluentAssertions;
 using FullStackCRM.Tests.Application.Services.Fixture;
-using Moq;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 

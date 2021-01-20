@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace FullStackCRM.Api.Controllers {
+namespace FullStackCRM.Api.Controllers
+{
     [Produces("application/json")]
     [ApiController]
     [Route("api/[controller]")]

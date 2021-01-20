@@ -2,13 +2,13 @@
 using FullStackCRM.Application.Models;
 using FullStackCRM.Domain.Entities;
 using FullStackCRM.Domain.Enums;
+using FullStackCRM.Shared;
 using FullStackCRM.Tests.Application.Services.Fixture;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
-using FullStackCRM.Shared;
 
 namespace FullStackCRM.Tests.Application.Services.UsuarioServiceTests.cs
 {
@@ -62,14 +62,14 @@ namespace FullStackCRM.Tests.Application.Services.UsuarioServiceTests.cs
             {
                 return new[]
                 {
-                    new object[] 
-                    { 
-                        new UsuarioCadastroModel() 
-                        {  
-                            Email = "samuel.t.almeida@gmail.com", 
+                    new object[]
+                    {
+                        new UsuarioCadastroModel()
+                        {
+                            Email = "samuel.t.almeida@gmail.com",
                             PerfilId = (int)EPerfis.Administrador,
                             Senha = ("123456").GetMd5Hash()
-                        } 
+                        }
                     }
                 };
             }
